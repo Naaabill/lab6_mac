@@ -11,7 +11,8 @@ project(lab2)
 
 #application sources
 set(SRCS
-        ${CMAKE_SOURCE_DIR}/main.c
+	${CMAKE_SOURCE_DIR}/main.c
 )
 
+#option(WITH_TFT "add compilation rules for the TFT support" ON)
 include("../sys/cmake/coroLabs.cmake")
