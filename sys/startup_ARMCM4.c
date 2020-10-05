@@ -66,8 +66,8 @@ extern void _start     (void) __attribute__((noreturn)); /* PreeMain (C library 
 /*----------------------------------------------------------------------------
   Internal References
  *----------------------------------------------------------------------------*/
-void Default_Handler(void) ;
-void Reset_Handler  (void) ;
+void Default_Handler(void) __attribute__ ((noreturn));
+void Reset_Handler  (void) __attribute__ ((noreturn));
 
 
 /*----------------------------------------------------------------------------
@@ -152,7 +152,7 @@ void FPU_IRQHandler				(void) __attribute__ ((weak, alias("Default_Handler")));
  *----------------------------------------------------------------------------*/
 extern const pFunc __Vectors[240];
        const pFunc __Vectors[240] __attribute__ ((section(".vectors"))) = {
-	(pFunc)((int)(&__StackTop)),              /*     Initial Stack Pointer */
+	(pFunc)(&__StackTop),                     /*     Initial Stack Pointer */
 	Reset_Handler,                            /*     Reset Handler */
 	NMI_Handler,                              /* -14 NMI Handler */
 	HardFault_Handler,                        /* -13 Hard Fault Handler */
@@ -280,6 +280,10 @@ void Reset_Handler(void) {
  */
   pDest = &__bss_start__;
   while(pDest < &__bss_end__ ) *pDest++ = 0UL;
+
+#if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
+    SCB->CPACR |= ((3UL << 10*2)|(3UL << 11*2));  /* set CP10 and CP11 Full Access */
+#endif
 
   SystemInit();                             /* CMSIS System Initialization */
   _start();                                 /* Enter PreeMain (C library entry point) */

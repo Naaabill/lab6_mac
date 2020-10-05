@@ -8,8 +8,8 @@
 
 #define SPI_DC_HIGH()           {GPIOA->BSRR = GPIO_BSRR_BS_12;}
 #define SPI_DC_LOW()            {GPIOA->BSRR = GPIO_BSRR_BR_12;}
-#define SPI_CS_HIGH()           {GPIOA->BSRR = GPIO_BSRR_BS_2;}
-#define SPI_CS_LOW()            {GPIOA->BSRR = GPIO_BSRR_BR_2;}
+#define SPI_CS_HIGH()           {GPIOA->BSRR = GPIO_BSRR_BS_4;}
+#define SPI_CS_LOW()            {GPIOA->BSRR = GPIO_BSRR_BR_4;}
 
 /*
  * Software SPI Macros
@@ -77,36 +77,47 @@
 //        #define SPI_MAX_PIXELS_AT_ONCE  32
 //        #define HSPI_WRITE_PIXELS(c,l)   SPI_OBJECT.writePixels(c,l)
 //    #else
-//        #define HSPI_WRITE_PIXELS(c,l)   for(uint32_t i=0; i<((l)/2); i++){ SPI_WRITE16(((uint16_t*)(c))[i]); }
+//        #define HSPI_WRITE_PIXELS(c,l)   for(uint32_t i=0; i<((l)/2); i++){
+//        SPI_WRITE16(((uint16_t*)(c))[i]); }
 //    #endif
 //#else
 //    // Standard Byte-by-Byte SPI
 //
 //    #if defined (__AVR__) || defined(TEENSYDUINO)
-//static inline uint8_t _avr_spi_read(void) __attribute__((always_inline));
-//static inline uint8_t _avr_spi_read(void) {
+// static inline uint8_t _avr_spi_read(void) __attribute__((always_inline));
+// static inline uint8_t _avr_spi_read(void) {
 //    uint8_t r = 0;
 //    SPDR = r;
 //    while(!(SPSR & _BV(SPIF)));
 //    r = SPDR;
 //    return r;
 //}
-//        #define HSPI_WRITE(b)            {SPDR = (b); while(!(SPSR & _BV(SPIF)));}
-//        #define HSPI_READ()              _avr_spi_read()
+//        #define HSPI_WRITE(b)            {SPDR = (b); while(!(SPSR &
+//        _BV(SPIF)));} #define HSPI_READ()              _avr_spi_read()
 //    #else
-        #define HSPI_WRITE(b)            transfer8((uint8_t)(b))
-        #define HSPI_READ()              transfer8((uint8_t)(0))
+#define HSPI_WRITE(b) transfer8((uint8_t)(b))
+#define HSPI_READ() transfer8((uint8_t)(0))
 //    #endif
-    #define HSPI_WRITE16(s)          HSPI_WRITE((s) >> 8); HSPI_WRITE(s)
-    #define HSPI_WRITE32(l)          HSPI_WRITE((l) >> 24); HSPI_WRITE((l) >> 16); HSPI_WRITE((l) >> 8); HSPI_WRITE(l)
-    #define HSPI_WRITE_PIXELS(c,l)   for(uint32_t i=0; i<(l); i+=2){ HSPI_WRITE(((uint8_t*)(c))[i+1]); HSPI_WRITE(((uint8_t*)(c))[i]); }
+#define HSPI_WRITE16(s)                                                        \
+  HSPI_WRITE((s) >> 8);                                                        \
+  HSPI_WRITE(s)
+#define HSPI_WRITE32(l)                                                        \
+  HSPI_WRITE((l) >> 24);                                                       \
+  HSPI_WRITE((l) >> 16);                                                       \
+  HSPI_WRITE((l) >> 8);                                                        \
+  HSPI_WRITE(l)
+#define HSPI_WRITE_PIXELS(c, l)                                                \
+  for (uint32_t i = 0; i < (l); i += 2) {                                      \
+    HSPI_WRITE(((uint8_t *)(c))[i + 1]);                                       \
+    HSPI_WRITE(((uint8_t *)(c))[i]);                                           \
+  }
 //#endif
 
-#define SPI_BEGIN()             setupSPI();
-#define SPI_BEGIN_TRANSACTION() 
-#define SPI_END_TRANSACTION()   
-#define SPI_WRITE16(s)          HSPI_WRITE16(s);
-#define SPI_WRITE32(l)          HSPI_WRITE32(l);
-#define SPI_WRITE_PIXELS(c,l)   HSPI_WRITE_PIXELS(c,l);
+#define SPI_BEGIN() setupSPI();
+#define SPI_BEGIN_TRANSACTION()
+#define SPI_END_TRANSACTION()
+#define SPI_WRITE16(s) HSPI_WRITE16(s);
+#define SPI_WRITE32(l) HSPI_WRITE32(l);
+#define SPI_WRITE_PIXELS(c, l) HSPI_WRITE_PIXELS(c, l);
 
 #endif // _ADAFRUIT_SPITFT_MACROS
