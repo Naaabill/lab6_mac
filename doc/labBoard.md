@@ -114,7 +114,7 @@ The 1.8" color TFT display is an [Adafruit product](https://www.adafruit.com/pro
 
 | name     | STM32 pin       | description            |
 |----------|-----------------|------------------------|
-| TFT_CS   | PB2             | Chip select            |
+| TFT_CS   | PA4             | Chip select            |
 | SCK      | PB3 / SPI1_SCK  | Serial clock           |
 | MOSI     | PB5 / SPI1_MOSI | Master Out, Slave In   |
 | MISO     | PB4 / SPI1_MISO | Master In, Slave Out   |
