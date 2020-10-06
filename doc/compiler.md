@@ -4,7 +4,7 @@ The target is a ST Nucleo32 board STM32F303K8.
 
 ## Required tools
 
-The compiler suite is arm-none-eabi-gcc and the debugger is arm-none-eabi-gdb (that can be used in command line interface, or through a gui like QtCreator).
+The compiler suite is arm-none-eabi-gcc, the debugger arm-none-eabi-gdb (that can be used in command line interface, or through a gui like QtCreator).
 
 ### Linux
 On Linux (Debian/Ubuntu flavor), you should install:
@@ -25,6 +25,8 @@ export PATH=/path/to/gcc-arm/bin:$PATH
 
 This environment variable should be defined each time a terminal is opened, so you can add it in the file `~/.bashrc`, which is a script that is executed each time a terminal is opened on Linux.
 
+A recent version of the [CMake build process software](https://cmake.org/download/) should be installed.
+
 ### Mac OS
 
 On Mac, XCode should be installed, with the command line tools. You should agree the license in terminal (it has already been done on computers of the lab):
@@ -42,3 +44,14 @@ export PATH=/path/to/stlink/bin:$PATH
 ```
 
 This environment variable should be defined each time a terminal is opened, so you can add it in the file `~/.profile`, which is a script that is executed each time a terminal is opened on Mac.
+
+A recent version of the [CMake build process software](https://cmake.org/download/) should be installed.
+
+## Windows
+
+(not tested yet…)
+
+You should install:
+ * [st-link](https://github.com/texane/stlink)
+ * the cross-compiler [gcc for ARM](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads)
+ * the [CMake build process software](https://cmake.org/download/)
