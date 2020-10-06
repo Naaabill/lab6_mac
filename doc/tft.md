@@ -21,13 +21,9 @@ A driver for the TFT display is provided, based on the Adafruit libraries [Adafr
 
 ### Compilation
 As the 2 libraries require a lot files/memory, the Makefile can be configured to compile these files or not:
-By default, the libraries are not compiled in, you can add them with a command line parameter:
+By default, the libraries are not compiled in, you can add them with the following line into the `CMakeList.txt` cmake file:
 ```sh
-make USE_TFT=1
-```
-or by modifying the Makefile (replace the 0 by 1):
-```
-USE_TFT=0		#set to 1 to compile tft related files
+option(WITH_TFT "add compilation rules for the TFT support" ON)
 ```
 
 **NOTE** The library is written in C++, and should be called from C++ files only. Your main file should be renamed `main.cpp` for instance.
