@@ -1,11 +1,11 @@
 # define CPU OPTIONS
-#set(CPU_OPTIONS -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -DSTM32F303x8 -DARMCM4)
-set(CPU_OPTIONS -mthumb -mcpu=cortex-m4 -mfloat-abi=soft -DSTM32F303x8 -DARMCM4)
+set(CPU_OPTIONS -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -DSTM32F303x8 -DARMCM4)
+#set(CPU_OPTIONS -mthumb -mcpu=cortex-m4 -mfloat-abi=soft -DSTM32F303x8 -DARMCM4)
 
-set(CMAKE_C_FLAGS_DEBUG   "-O0 -g -Wall -fexceptions -Wno-deprecated -DDEBUG")
-set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g -Wall -fexceptions -Wno-deprecated -DDEBUG")
-set(CMAKE_C_FLAGS_RELEASE   "-O3 -funroll-loops -fomit-frame-pointer -fno-strict-aliasing -pipe -ffast-math -fexceptions -flto")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -funroll-loops -fomit-frame-pointer -fno-strict-aliasing -pipe -ffast-math -fexceptions -flto")
+set(CMAKE_C_FLAGS_DEBUG   "-O0 -Wno-deprecated -Werror -DDEBUG")
+set(CMAKE_CXX_FLAGS_DEBUG "-O0 -Wno-deprecated -Werror -DDEBUG")
+set(CMAKE_C_FLAGS_RELEASE   "-O3") #remove the -Werror => pb with Adafruit lib.
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 #compiler options
 add_compile_options(
@@ -22,7 +22,6 @@ add_compile_options(
     $<$<COMPILE_LANGUAGE:CXX>:-fno-threadsafe-statics>
     -fstrict-volatile-bitfields
     -ffunction-sections
-    -Werror
     -Wall
     -Wextra
     -Wcast-align
@@ -33,6 +32,8 @@ add_compile_options(
     -Wsuggest-final-types
     -Wsuggest-final-methods
     #-pedantic
+    -fexceptions
+    -g
 )
 
 include_directories(

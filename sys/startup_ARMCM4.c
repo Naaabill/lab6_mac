@@ -35,6 +35,8 @@
 //  #error device not specified!
 //#endif
 #include <stdint.h>
+#include "stm32f3xx.h"
+#include "core_cm4.h"
 
 /*----------------------------------------------------------------------------
   Linker generated Symbols
