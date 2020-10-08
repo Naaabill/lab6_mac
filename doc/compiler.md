@@ -52,6 +52,6 @@ A recent version of the [CMake build process software](https://cmake.org/downloa
 (not tested yet…)
 
 You should install:
- * [st-link](https://github.com/texane/stlink)
+ * [st-link](https://github.com/texane/stlink) => version compilée [64 bits](https://github.com/stlink-org/stlink/releases/download/v1.6.1/stlink-1.6.1-x86_64-w64-mingw32.zip) et [32 bits](https://github.com/stlink-org/stlink/releases/download/v1.6.1/stlink-1.6.1-i686-w64-mingw32.zip).
  * the cross-compiler [gcc for ARM](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads)
  * the [CMake build process software](https://cmake.org/download/)
