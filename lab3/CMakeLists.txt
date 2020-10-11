@@ -11,7 +11,8 @@ project(lab3)
 
 #application sources
 set(SRCS
-        ${CMAKE_SOURCE_DIR}/main.cpp
+	${CMAKE_SOURCE_DIR}/main.cpp
+	${CMAKE_SOURCE_DIR}/sw.cpp
 )
 
 option(WITH_TFT "add compilation rules for the TFT support" ON)
