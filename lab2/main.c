@@ -13,11 +13,13 @@ void setup() {
   // PB0 output
   GPIOB->MODER &= ~GPIO_MODER_MODER0_Msk;
   GPIOB->MODER |=  GPIO_MODER_MODER0_0;
+  GPIOB->BSRR = GPIO_BSRR_BR_0;
 }
 
 /* main function */
 int main(void) {
   setup();
+  for(int i=0;i<1000;i++);
   /* Infinite loop */
   while (1) {
     /* Add application code here */
