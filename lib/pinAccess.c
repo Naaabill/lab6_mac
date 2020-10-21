@@ -88,3 +88,44 @@ unsigned char digitalRead(GPIO_TypeDef *port,
 	return 0;
 }
 
+unsigned char pinAlt(GPIO_TypeDef *port,
+                     uint32_t numBit,
+                     uint32_t AFId)
+{
+    if(!IS_GPIO_ALL_INSTANCE(port)) return 0xFF;
+    if(numBit > 15) return 0xFF;
+    if(AFId > 15) return 0xFF;
+    //clock
+    clockForGpio(port);
+    //set MODER to 10
+    uint32_t mask2Bits = (3U << (numBit*2));
+    port->MODER &= ~mask2Bits;
+    port->MODER |= (2U<<(numBit*2));
+    //set alternate function
+    uint32_t shift;
+    int AFRReg;
+    if(numBit < 8U) //AFRL
+    {
+        shift = numBit<<2;
+        AFRReg = 0;
+    } else { //AFRH
+        shift = (numBit-8U)<<2;
+        AFRReg = 1;
+    }
+    port->AFR[AFRReg] &= ~(0xfU<<shift);
+    port->AFR[AFRReg] |=  (AFId<<shift);
+    return 0;
+}
+
+unsigned char pinAnalog(GPIO_TypeDef *port, uint32_t numBit)
+{
+    uint32_t mask2Bits; //mask for 2bit fields
+    if(!IS_GPIO_ALL_INSTANCE(port)) return 0xFF;
+    if(numBit > 15) return 0xFF;
+    //clock
+    clockForGpio(port);
+    port->MODER |= (3U<<(numBit*2));    //analog config
+    mask2Bits = (3U << (numBit*2));
+    port->PUPDR &= ~mask2Bits; //remove pull-up/down
+    return 0;
+}
