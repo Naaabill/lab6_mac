@@ -13,3 +13,13 @@ add_custom_target(flash
     DEPENDS ${PROJECT_NAME}.bin
 	COMMAND st-flash --reset write ${PROJECT_NAME}.bin 0x8000000
 )
+
+add_custom_target(qemu-run
+    DEPENDS ${PROJECT_NAME}.bin
+	COMMAND qemu-system-arm -M nucleo32_f303 -kernel ${PROJECT_NAME}.bin -nographic
+)
+
+add_custom_target(qemu-gdb
+    DEPENDS ${PROJECT_NAME}.bin
+	COMMAND qemu-system-arm -M nucleo32_f303 -kernel ${PROJECT_NAME}.bin -nographic -S -gdb tcp::4242
+)
