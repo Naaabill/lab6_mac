@@ -3,6 +3,15 @@ You need to make a link so that the qemu program can be run from everywhere. Cop
 ```
 sudo ln -s `pwd`/qemu-system-arm /usr/local/bin/qemu-system-arm
 ```
+You can check the correct link with:
+
+```
+ls -l /usr/local/bin/qemu-system-arm
+```
+It should point to a correct location!! If you made a mistake (wrong directory), just remove the wrong link:
+```
+sudo rm /usr/local/bin/qemu-system-arm
+```
 
 qemu depends in the libc6:
 ```
@@ -12,7 +21,7 @@ sudo apt install libc6
 The python script have dependancies with PyQt5 and posix_ipc:
 
 ```
-sudo apt install python3-pyqt5 python3-pip
+sudo apt install python3-pyqt5 python3-pip python3-dev
 pip3 install posix_ipc
 ```
 
