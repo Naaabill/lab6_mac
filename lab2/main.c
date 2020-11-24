@@ -19,7 +19,6 @@ void setup() {
 /* main function */
 int main(void) {
   setup();
-  for(int i=0;i<1000;i++);
   /* Infinite loop */
   while (1) {
     /* Add application code here */

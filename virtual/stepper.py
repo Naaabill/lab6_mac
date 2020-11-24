@@ -12,6 +12,8 @@ import threading
 import struct
 pipc_gpio_magic = 0xdeadbeef
 pipc_adc_magic  = 0xcafecafe
+pipc_serial_magic  = 0xabcdef01
+
 import posix_ipc as pipc
 mq_to_qemu = pipc.MessageQueue("/to_qemu",flags=pipc.O_CREAT, read=False, write=True)
 mq_from_qemu = pipc.MessageQueue("/from_qemu",flags=pipc.O_CREAT, read=True, write=False)
@@ -181,14 +183,20 @@ window = MainWindow()
 def receiver():
     while True:
         msg = mq_from_qemu.receive()
-        mg, changed_out, dir_mask,output,gpio = struct.unpack("=IHHHH",msg[0])
+        magic = struct.unpack("=I",msg[0][0:4]) #get magic value. return a tuple.
         #print("mg=",mg," pin=",pin," gpio=",gpio," state=",state) 
-        if mg != pipc_gpio_magic:
-            raise Exception("Wrong magic number in GPIO IPC message") 
-        name = ['A','B','C','D','F']
-        if gpio < 5:
-            window.setGPIO(name[gpio],dir_mask,output) #TODO: thread safe?
-        #required if we get too much messages to let time for the UI.
+        if magic[0] == pipc_gpio_magic:
+            magic, changed_out, dir_mask,output,gpio = struct.unpack("=IHHHH",msg[0])
+            name = ['A','B','C','D','F']
+            if gpio < 5:
+                window.setGPIO(name[gpio],dir_mask,output) #TODO: thread safe?
+        elif magic[0] == pipc_serial_magic:
+            magic, char = struct.unpack("=II",msg[0])
+            #print('char {0:c}'.format(char))
+            window.serial.insertPlainText(chr(char & 0xff))
+        else:
+            raise Exception("Wrong magic number in GPIO IPC message: 0x{val:08x}".format(val=magic[0]) )
+        #required if we get too many messages to let time for the UI.
         time.sleep(.01)
 
 def warningPersistence():
