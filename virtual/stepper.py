@@ -10,9 +10,11 @@ import sys,time
 import threading
 # Communication part
 import struct
-pipc_gpio_magic = 0xdeadbeef
-pipc_adc_magic  = 0xcafecafe
+pipc_gpio_magic    = 0xdeadbeef
+pipc_adc_magic     = 0xcafecafe
 pipc_serial_magic  = 0xabcdef01
+pipc_mcp_magic     = 0xfeedfeed
+pipc_reset_magic   = 0xbadf00d
 
 import posix_ipc as pipc
 mq_to_qemu = pipc.MessageQueue("/to_qemu",flags=pipc.O_CREAT, read=False, write=True)
@@ -113,6 +115,19 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(widget)
 
+    @pyqtSlot()
+    def reset(self):
+        print('reset')
+        for (pin,chkbox) in self.leds:
+            chkbox.setPalette(self.palOff)
+        for (pin,chkbox) in self.buttons:
+            chkbox.setCheckState(Qt.Unchecked)
+        self.state = 0
+        self.step  = 0
+        self.labelStepperState.setText('state : '+str(self.state))
+        self.labelStepperStep.setText('step : '+str(self.step))
+        self.slider.setValue(0)
+
     def buttonChecked(self,state,pin):
         """ called when a checkbox is checked """
         gpioId = 1 #2 buttons on GPIOB
@@ -180,24 +195,34 @@ class MainWindow(QMainWindow):
 app = QApplication(sys.argv)
 window = MainWindow()
 
-def receiver():
-    while True:
-        msg = mq_from_qemu.receive()
-        magic = struct.unpack("=I",msg[0][0:4]) #get magic value. return a tuple.
-        #print("mg=",mg," pin=",pin," gpio=",gpio," state=",state) 
-        if magic[0] == pipc_gpio_magic:
-            magic, changed_out, dir_mask,output,gpio = struct.unpack("=IHHHH",msg[0])
-            name = ['A','B','C','D','F']
-            if gpio < 5:
-                window.setGPIO(name[gpio],dir_mask,output) #TODO: thread safe?
-        elif magic[0] == pipc_serial_magic:
-            magic, char = struct.unpack("=II",msg[0])
-            #print('char {0:c}'.format(char))
-            window.serial.insertPlainText(chr(char & 0xff))
-        else:
-            raise Exception("Wrong magic number in GPIO IPC message: 0x{val:08x}".format(val=magic[0]) )
-        #required if we get too many messages to let time for the UI.
-        time.sleep(.01)
+class Receiver(QThread):
+    resetSig  = pyqtSignal()
+    gpioSig   = pyqtSignal(str,int,int)
+    mcpSig    = pyqtSignal(str,int,int)
+
+    def __init__self():
+        QThread.__init__(self)
+
+    def run(self):
+        while True:
+            msg = mq_from_qemu.receive()
+            magic = struct.unpack("=I",msg[0][0:4]) #get magic value. return a tuple.
+            #print("mg=",mg," pin=",pin," gpio=",gpio," state=",state) 
+            if magic[0] == pipc_gpio_magic:
+                magic, changed_out, dir_mask,output,gpio = struct.unpack("=IHHHH",msg[0])
+                name = ['A','B','C','D','F']
+                if gpio < 5:
+                    self.gpioSig.emit(name[gpio],dir_mask,output)
+            elif magic[0] == pipc_serial_magic:
+                pass
+            elif magic[0] == pipc_mcp_magic:
+                pass
+            elif magic[0] == pipc_reset_magic:
+                self.resetSig.emit()
+            else:
+                raise Exception("Wrong magic number in GPIO IPC message: 0x{val:08x}".format(val=magic[0]) )
+            #required if we get too many messages to let time for the UI.
+            time.sleep(.01)
 
 def warningPersistence():
     while True:
@@ -209,8 +234,9 @@ def warningPersistence():
 
 window.show()
 
-thread = threading.Thread(target=receiver)
-thread.daemon = True
+thread = Receiver()
+thread.resetSig.connect(window.reset)
+thread.gpioSig.connect(window.setGPIO)
 thread.start()
 
 threadWarning = threading.Thread(target=warningPersistence)
