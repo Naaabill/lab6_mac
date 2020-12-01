@@ -82,15 +82,15 @@ class MainWindow(QMainWindow):
                 if (self.charliePlexingState & mask[l]) == data[l]:
                     self.leds[l].setPalette(self.palOn)
                     self.led[l] = True
-                #else:
-                #    self.leds[l].setPalette(self.palOff)
+                else:
+                    self.led[l] = False
                 
     @pyqtSlot()
     def switchLedOffs(self):
         for i in range(6):
             if not self.led[i]:
                 window.leds[i].setPalette(window.palOff)
-            self.led[i] = False
+            #self.led[i] = False
 
 app = QApplication(sys.argv)
 window = MainWindow()
@@ -129,7 +129,7 @@ class RetinalPersistence(QThread):
         QThread.__init__(self)
     def run(self):
         while True:
-            time.sleep(0.2)
+            time.sleep(0.3)
             self.switchOffLedSig.emit()
 
 window.show()
