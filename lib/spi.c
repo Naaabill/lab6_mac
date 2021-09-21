@@ -40,6 +40,7 @@ void setupSPI() {
               SPI_CR2_FRXTH |         // Fifo RX threshold 8-bits
               SPI_CR2_SSOE;
   SPI1->CR1 |= SPI_CR1_SPE; // spi enabled
+  GPIOA->BSRR = GPIO_BSRR_BS_11 | GPIO_BSRR_BS_4 ; // set CS
 }
 
 void beginTransaction() {

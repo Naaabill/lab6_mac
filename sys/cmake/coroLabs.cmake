@@ -40,6 +40,7 @@ set(LIBSRCS
     ${LIB_DIR}/pinAccess.c
     ${LIB_DIR}/spi.c
     ${LIB_DIR}/dummySerial.c
+    ${LIB_DIR}/exti.c
 )
 
 set(APP_SRCS ${SRCS} ${LIBSRCS} ${TFT_SRCS})
