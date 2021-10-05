@@ -1,6 +1,6 @@
 # STM32 Debug with QtCreator
 
-QtCreator is eator is a cross-platform integrated development environment (IDE) that can be configured for the STM32. It embeds:
+QtCreator is a cross-platform integrated development environment (IDE) that can be configured for the STM32. It embeds:
 * a source editor
 * a build system
 * an easy-to-use graphical debugger interface
