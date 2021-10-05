@@ -57,7 +57,7 @@ In the `Kits` part:
 
  * You can set the cross-compiler (This is not required if you wants to debug only). Here, I have both set the C compiler (`gcc`) and the c++ compiler (`g++`). It is exactly the same configuration, just rename the compiler path from gcc to g++:
 
- (./img/qtCreatorConfigBRCompiler.png)
+ ![](./img/qtCreatorConfigBRCompiler.png)
 
  * The we can define the `kit` that contains all the stuff (device/debugger) in `Kits` section:
 
