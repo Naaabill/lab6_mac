@@ -12,9 +12,9 @@ print("const int16_t sinTab["+str(nbVal)+"] = {\n\t",end='')
 
 for idx in range (nbVal):
 
-    val = 0 #TODO - update this line -
+    val = #TODO - update this line -
 
-    print('0x{val:04x}'.format(val=val),end='')
+    print('0x{val:04x}'.format(val=int(val)),end='')
     if idx != (nbVal-1): #except last value
         print(', ',end="")
         if idx % nbDataPerLine == (nbDataPerLine-1):
