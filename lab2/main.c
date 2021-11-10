@@ -10,10 +10,10 @@ void setup() {
   RCC->AHBENR |= RCC_AHBENR_GPIOBEN_Msk; // clock for GPIOB
   __asm("nop");                          // wait until GPIO clock is Ok.
 
-  // PB0 output
-  GPIOB->MODER &= ~GPIO_MODER_MODER0_Msk;
-  GPIOB->MODER |=  GPIO_MODER_MODER0_0;
-  GPIOB->BSRR = GPIO_BSRR_BR_0;
+  // PB3 output
+  GPIOB->MODER &= ~GPIO_MODER_MODER3_Msk;
+  GPIOB->MODER |=  GPIO_MODER_MODER3_0;
+  GPIOB->BSRR = GPIO_BSRR_BR_3;
 }
 
 /* main function */
@@ -22,9 +22,9 @@ int main(void) {
   /* Infinite loop */
   while (1) {
     /* Add application code here */
-    GPIOB->ODR |= GPIO_ODR_0; // bit set
+    GPIOB->ODR |= GPIO_ODR_3; // bit set
     wait();
-    GPIOB->ODR &= ~GPIO_ODR_0; // bit reset
+    GPIOB->ODR &= ~GPIO_ODR_3; // bit reset
     wait();
   }
 }

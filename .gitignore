@@ -3,6 +3,7 @@ lab?/build
 lab?/*.elf
 lab?/*.elf.bin
 lab?/*.elf.map
+lab?/.vscode/.cortex*
 
 # CMake+QtCreator related stuff
 lab?/CMakeLists.txt.user
