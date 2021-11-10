@@ -1,16 +1,15 @@
 #include "stm32f3xx.h"
+#include "pinAccess.h"
 
 void wait()
 {
     volatile int i=0;
-    for(i=0;i<200000;i++);
+    for(i=0;i<2000000;i++);
 }
 
 void setup()
 {
-    RCC->AHBENR |= RCC_AHBENR_GPIOBEN_Msk; //clock for GPIOB
-    __asm("nop");					//wait until GPIOB clock is Ok.
-    GPIOB->MODER = 1 << (3*2);	//PB3 output
+    pinMode(GPIOB,3,OUTPUT);
 }
 
 /* main function */
@@ -20,10 +19,7 @@ int main(void)
     /* Infinite loop */
     while (1)
     {
-        /* Add application code here */
-        GPIOB->BSRR = 1<<3; 		//bit set
-        wait();
-        GPIOB->BSRR = 1<<(3+16); 	//bit reset
+        digitalToggle(GPIOB,3);
         wait();
     }
 }
