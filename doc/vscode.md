@@ -9,6 +9,8 @@ Here, we use:
  * a tool to handle the project (compilation/flash recipes): `cmake`
  * a tool to upload and debug on the target: `st-link`
 
+You can find [here](./toos.md) some information to instal these tools.
+
 **Important note**:
 All these tools should be installed and in the environment path! You can test: open a terminal and type: `arm-none-eabi-gcc --version`. The answer should be sth like:
 ```
