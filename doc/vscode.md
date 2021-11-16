@@ -9,10 +9,10 @@ Here, we use:
  * a tool to handle the project (compilation/flash recipes): `cmake`
  * a tool to upload and debug on the target: `st-link`
 
-You can find [here](./tools.md) some information to instal these tools.
+You can find [here](./tools.md) some information to install these tools.
 
 **Important note**:
-All these tools should be installed and in the environment path! You can test: open a terminal and type: `arm-none-eabi-gcc --version`. The answer should be sth like:
+All these tools should be installed and the environment path updated! You can test: open a terminal and type: `arm-none-eabi-gcc --version`. The answer should be sth like:
 ```
 -> % arm-none-eabi-gcc --version
 arm-none-eabi-gcc (GNU Arm Embedded Toolchain 9-2020-q2-update) 9.3.1 20200408 (release)
@@ -59,7 +59,7 @@ There may have some messages. One of them is related to cmake: VSCode can use th
 ![](img/vscodeOpenProject.png)
 
 You can see that there is a `.vscode` folder (hidden on Linux/Mac) that contains the full configuration:
- * `c_cpp_properties.json` give some information about the configuration of the C/C++ parts. It us used by the intelliSense mode for auto-completion. It defines a configuration named `STM32 ARM`
+ * `c_cpp_properties.json` give some information about the configuration of the C/C++ parts. The intelliSense mode for auto-completion needs it. It defines a configuration named `STM32 ARM`
  * `launch.json` get some information on how to use st-link when debugging.
  * `settings.json` just tells that CMake will use a cross compiler.
 
