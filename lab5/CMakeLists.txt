@@ -6,13 +6,17 @@
 # make flash
 cmake_minimum_required(VERSION 3.5)
 
+#with that, cmake will not try to compile a simple test program
+# (that may fail for an embedded target)
+set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
+
 #project name
 project(lab5)
 
 #application sources
 set(SRCS
-        ${CMAKE_SOURCE_DIR}/main.c
+	${CMAKE_SOURCE_DIR}/main.cpp
 )
 
-#option(WITH_TFT "add compilation rules for the TFT support" ON)
+option(WITH_TFT "add compilation rules for the TFT support" ON)
 include("../sys/cmake/coroLabs.cmake")
