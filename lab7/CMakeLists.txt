@@ -6,6 +6,9 @@
 # make flash
 cmake_minimum_required(VERSION 3.5)
 
+set(SYS_DIR ${CMAKE_SOURCE_DIR}/../sys)
+include(${SYS_DIR}/cmake/arm-none-eabi.cmake)
+
 #with that, cmake will not try to compile a simple test program
 # (that may fail for an embedded target)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")

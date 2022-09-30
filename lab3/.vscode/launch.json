@@ -10,7 +10,7 @@
         "name": "Debug STM32 lab3",
         "request": "launch", //"launch" => reload firmware, "attach" => just start debug session
         "type": "cortex-debug",
-        "showDevDebugOutput": false,
+        "showDevDebugOutput": "none",
         "servertype": "stutil",
         "runToEntryPoint": "main",
         "device": "STM32F303K8",
