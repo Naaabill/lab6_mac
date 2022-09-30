@@ -64,9 +64,9 @@ A recent version of the [CMake build process software](https://cmake.org/downloa
 
 ## Cross compiler
 
-The cross-compiler is [gcc for ARM and can be downloaded here](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads)
+The cross-compiler is [gcc for ARM and can be downloaded here](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads)
 
-You need to download the windows release, for instance: `gcc-arm-none-eabi-10.3-2021.10-win32.exe`. 
+You need to download the windows release `Windows (mingw-w64-i686) hosted cross toolchains`.
 
 Once downloaded, you just have to run the installer. **Don't forget to click on the option `Add path to environment variable`!!!**
 
