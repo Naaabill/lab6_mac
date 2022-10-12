@@ -1,4 +1,4 @@
-# Start debugging with GDB
+# Start debugging with GDB in Command Line Mode
 
 ## Introduction
 The [GNU GDB debugger](https://www.gnu.org/software/gdb/) is the tool used to interact with the micro-controller on the board.

@@ -1,4 +1,4 @@
-# STM32 Debug with QtCreator
+# STM32 Debug with QtCreator -- DEPRECATED!!! --
 
 QtCreator is a cross-platform integrated development environment (IDE) that can be configured for the STM32. It embeds:
 * a source editor
