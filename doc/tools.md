@@ -6,7 +6,7 @@ Here, we use:
  * a cross-compiler for the cortex ARM target (`arm-none-eabi-gcc`)
  * a tool to upload and debug on the target: `st-link`
  * a tool to handle the project (compilation/flash recipes): `cmake`
- * an IDE (QtCreator, Eclipse,…), or a lightweight editor (VSCode, Vim, gedit, …)
+ * an IDE (QtCreator, Eclipse, VSCode, …), or a lightweight editor (Vim, gedit, …)
 
 The compiler suite is `arm-none-eabi-gcc`, the debugger `arm-none-eabi-gdb` (that can be used in command line interface, or through a gui like QtCreator or VSCode). The name stands for:
  * `arm`: the processor target
@@ -22,11 +22,13 @@ On Linux (Debian/Ubuntu flavor), you should install:
  * [st-link](https://github.com/texane/stlink)
  * [cmake build process software](https://cmake.org/download/)
 
+## CMake
 First the essential build tools and cmake
 ```sh
 sudo apt-get install build-essential cmake
 ```
 
+## Cross-compiler
 The compiler can be downloaded through packages, but there are some problems with it, and the debugger (`arm-none-eabi-gdb`) is missing. You can download [a version provided by ARM](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads).
 
 The archive may be decompressed, and the environment variable PATH should be updated (here if the archive has been decompressed to `/path/to/gcc-arm`):
@@ -38,15 +40,29 @@ This environment variable should be defined each time a terminal is opened, so y
 
 Another way is to make a symbolic link from the executables to the `usr/local/bin`.
 
+# STLink
+
+The ST-Link tool (communication between the debugger gdb and the target) [can be found here](https://github.com/texane/stlink).
+
+## Next…
+As soon as all this stuff is correctly installed, you can configure an editor, such as [VSCode](./vscode.md) to develop your application.
+
 # Mac OS
 
 On Mac, XCode should be installed, with the command line tools (App Store). You should agree the license in terminal (it has already been done on computers of the lab):
 ```sh
 sudo xcodebuild -license
 ```
-You can [download the compiler here.](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads).
 
-Packages for cmake build process software [can be found here](https://cmake.org/download/)
+## CMake
+
+Packages for cmake build process software [can be found here](https://cmake.org/download/).
+
+A recent version of the [CMake build process software](https://cmake.org/download/) should be installed.
+
+## Cross-compiler and STLink
+
+You can [download the compiler here.](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads).
 
 The ST-Link tool (communication between the debugger gdb and the target) [can be found here](https://github.com/texane/stlink).
 
@@ -58,7 +74,9 @@ export PATH=/path/to/stlink/bin:$PATH
 
 This environment variable should be defined each time a terminal is opened, so you can add it in the file `~/.profile`, which is a script that is executed each time a terminal is opened on Mac.
 
-A recent version of the [CMake build process software](https://cmake.org/download/) should be installed.
+## Next…
+As soon as all this stuff is correctly installed, you can configure an editor, such as [VSCode](./vscode.md) to develop your application.
+
 
 # Windows
 
@@ -106,7 +124,7 @@ You need to install the signed drivers [that are provided by ST](https://www.st.
 * download the archive (`en.stsw-link009_v2.0.2.zip`)
 * unzip it, and run the instaler (`dpinst_amd64.exe`).
 
-### and the test!
+### Please test ST-Link!
 
 Then you may try your st-link installation:
 * open a terminal (search for `cmd.exe`):
@@ -117,7 +135,7 @@ Then you may try your st-link installation:
 
 * close the program with `[Ctrl]+C`.
 
-## CMake
+## CMake + Ninja
 
 The CMake build process software [can be downloaded here](https://cmake.org/download/). You should choose the `.msi` file (windows installer).
 
@@ -131,3 +149,6 @@ CMake will need a generator, as explained in [this page](https://cmake.org/cmake
  * download the binary `ninja-win.zip`
  * unzip the zip file
  * move the binary file to a location in the windows path. An easy way is to mode the binary to the `CMake/bin` folder (`C:\Program Files\CMake\bin`). It will work directly.
+
+## Next…
+As soon as all this stuff (cross-compiler, cmake, ninja, st-link and its driver…) is correctly installed, you can configure an editor, such as [VSCode](./vscode.md) to develop your application.

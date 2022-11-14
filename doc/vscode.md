@@ -1,13 +1,15 @@
 # VSCode integration
 
-This *Howto* explains how to configure Microsoft VSCode for Cortex ARM development. Some parts are based on [this web site](https://hbfsrobotics.com/blog/configuring-vs-code-arm-development-stm32cubemx) that uses ST CubeMX, VSCode and Makefiles on Windows
+This *Howto* explains how to configure Microsoft VSCode for Cortex ARM development.
+
+Sources: Some parts are based on [this web site](https://hbfsrobotics.com/blog/configuring-vs-code-arm-development-stm32cubemx) that uses ST CubeMX, VSCode and Makefiles on Windows.
 
 ## Prerequisites
 
 Here, we use:
  * a cross-compiler for the cortex ARM target (`arm-none-eabi-gcc`)
- * a tool to handle the project (compilation/flash recipes): `cmake`
- * a tool to upload and debug on the target: `st-link`
+ * a tool to handle the project (compilation/flash recipes): `cmake` (+`Ninja` on Windows)
+ * a tool to upload and debug on the target: `st-link` (+its driver on Windows).
 
 You can find [here](./tools.md) some information to install these tools.
 
