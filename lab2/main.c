@@ -1,4 +1,5 @@
 #include "stm32f3xx.h"
+#include "pinAccess.h"
 
 void wait() {
   volatile int i = 0;
@@ -7,13 +8,8 @@ void wait() {
 }
 
 void setup() {
-  RCC->AHBENR |= RCC_AHBENR_GPIOBEN_Msk; // clock for GPIOB
-  __asm("nop");                          // wait until GPIO clock is Ok.
-
-  // PB3 output
-  GPIOB->MODER &= ~GPIO_MODER_MODER3_Msk;
-  GPIOB->MODER |=  GPIO_MODER_MODER3_0;
-  GPIOB->BSRR = GPIO_BSRR_BR_3;
+  // PB3 (led) as output
+  pinMode(GPIOB,3, OUTPUT);
 }
 
 /* main function */
@@ -22,9 +18,9 @@ int main(void) {
   /* Infinite loop */
   while (1) {
     /* Add application code here */
-    GPIOB->ODR |= GPIO_ODR_3; // bit set
+    digitalWrite(GPIOB,3,1);
     wait();
-    GPIOB->ODR &= ~GPIO_ODR_3; // bit reset
+    digitalWrite(GPIOB,3,0);
     wait();
   }
 }
