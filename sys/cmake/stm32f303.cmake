@@ -11,7 +11,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 add_compile_options(
     ${CPU_OPTIONS}
 	$<$<COMPILE_LANGUAGE:C>:-std=c11>
-	$<$<COMPILE_LANGUAGE:CXX>:-std=c++11>          #CMSYS do not support C++17
+	$<$<COMPILE_LANGUAGE:CXX>:-std=c++11>          #CMSIS do not support C++17
     $<$<COMPILE_LANGUAGE:CXX>:-fms-extensions>
     $<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions>
     $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>
