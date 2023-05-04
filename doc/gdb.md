@@ -2,9 +2,14 @@
 
 ## Introduction
 The [GNU GDB debugger](https://www.gnu.org/software/gdb/) is the tool used to interact with the micro-controller on the board.
-For low-level operations, it uses the ST-Link tool, dedicated to ST microcontrollers.
+For low-level operations, it can use the ST-Link tool (dedicated to ST microcontrollers), openocd (other microcontrollers), or other tools.
 
 You can easily find documentation for GDB, from simple [cheat sheets](https://darkdust.net/files/GDB%20Cheat%20Sheet.pdf), [more extended doc](http://www.yolinux.com/TUTORIALS/GDB-Commands.html), and obviously the [official documentation](https://sourceware.org/gdb/current/onlinedocs/gdb/).
+
+## Low Level part
+The low level parts make the link between GDB commands and the board (using USB for instance). It acts as a server on which the client will connect to, using a socket.
+
+### ST Link (STM32 based boards)
 
 You have to plug your development board, and start in a terminal `st-util`
 
@@ -18,6 +23,19 @@ st-util 1.4.0
 2018-11-23T17:08:25 INFO src/gdbserver/gdb-server.c: Listening at *:4242...
 ```
 The `st-util` tool communicates with the GDB debugger through a socket (port 4242 in this case).
+
+### openOCD
+
+[openOCD](https://openocd.org/) is an open source adapter. For The RPi RP2040 target for instance:
+```sh
+$ openocd -f interface/cmsis-dap.cfg -c "adapter speed 5000" -f target/rp2040.cfg -s tcl
+Open On-Chip Debugger 0.11.0-g8e3c38f-dirty (2023-05-03-08:48)
+[...]
+Info : starting gdb server for rp2040.core0 on 3333
+Info : Listening on port 3333 for gdb connections
+
+```
+The `openocd` tool communicates with the GDB debugger through a socket (port 3333 in this case).
 
 ## Basic usage
 
@@ -33,7 +51,7 @@ arm-none-eabi-gdb -tui test.elf
 
 #### Startup
 
-A gdb script is provided to initiate communication with the target, load the binary file and run until main. The content of the script is (note: lines beginning with a # are comments):
+A gdb script is a simple file with commands. In the following example, it initiates communication with the target, load the binary file and run until main (note: lines beginning with a # are comments):
 
 ```
 #start st-util from another terminal before running gdb:
@@ -53,6 +71,8 @@ source init.gdb
 
 > **Note:** As is the case with the Unix shell, gdb tries to automatically complete the command or file depending on the context. In the above command, pressing the tab key just after typing an ```i``` completes the filename if ```init.gdb``` is the only file starting with ```i``` in the current directory.
 
+> **Note:** Most commands have long and short names, as `continue` or `c`.
+
 #### Layout
 
 * `layout src`: same as the `-tui` CLI argument. Display src
@@ -60,8 +80,8 @@ source init.gdb
 
 The text window is split in 2 parts, the source code file, and the command file. Most useful shortcuts are:
 
-* Ctrl+X O //toggle focus between the 2 windows.
-* Ctrl+X 2 //layout with 3 parts, including asm
+* `Ctrl+X O` //toggle focus between the 2 windows.
+* `Ctrl+X 2` //layout with 3 parts, including asm
 
 ### Run/stop
 
@@ -142,10 +162,22 @@ delete
 
 Following commands can be used either with `print` (show one time, can be abbreviated by `p`) or `display` (show each time the program is stopped, can be abbreviated by `disp`):
 
-Print a variable one time. `/x` is for hexadecimal display. Other formats are:  `/o` (octal), `/d` (decimal), `/u` (unsigned decimal), `/t` (binary), `/f` (float), `/a` (address), `/i` (instruction), `/c` (char), `/s` (string) and `/z` (hex, zero padded on the left)
+Print a variable one time. One can add a suffix to define the display format:
+ *  `/x` hexadecimal
+ *  `/o` octal
+ *  `/d` decimal
+ *  `/u` unsigned decimal
+ *  `/t` binary
+ *  `/f` float
+ *  `/a` address
+ *  `/i` instruction
+ *  `/c` char
+ *  `/s` string
+ *  `/z` hex, zero padded on the left
 
-```
-print/x i
+```gdb
+print/x i   # print i in hexadicmal
+display/x a # print a now, and after each command
 ```
 
 Or from an address it uses a C like syntax with pointer dereferencing):
@@ -178,6 +210,37 @@ Get the value of the General Purpose Registers (GPR)
 info registers
 ```
 
+### Update
+
+We use the `set` keyword, example:
+
+```
+set gpioa->MODER = gpioa->MODER | 0xa0
+```
+
+### multicore processor (RP2040 - pico board)
+For the pico, OpenOCD manages multicore by defining 2 threads: thread 1 for core 0 and thread 2 for core 1. To select one core:
+
+```
+thread 2 # switch to core 1
+```
+
+If a breakpoint is reached by one core, the processor is halted (for both cores) and the view is switched to that core. Example with a breakpoint reached by core 1:
+```
+(gdb) c
+Continuing.
+[Switching to Thread 2]
+
+Thread 2 hit Breakpoint 1, core1_entry () at /home/[..]/multicore.c:29
+```
+
+Behavior:
+ * step by step execution (`n`,`s`) is executed only on the current core (the other remains halted)
+ * `continue` restarts both cores
+ * the `display` command is associated to each core
+
+> **Limitation:** if a breakpoint is reached on a core, the execution **should** restart (step by step or resume) on the same core. Otherwise, openocd cannot handle the command and crashes.
+
 ### Special case for the STM32 peripherals
 
 the peripheral address is computed by the preprocessor from different `#define` commands. To get an access with gdb, we have to declare it in the C file:
@@ -190,14 +253,6 @@ then, the access is easy in GDB:
 
 ```
 print/x gpioa->MODER
-```
-
-### Update
-
-We use the `set` keyword, example:
-
-```
-set gpioa->MODER = gpioa->MODER | 0xa0
 ```
 
 ### Quit
@@ -232,7 +287,7 @@ Then, when the GDB prompt appears, `(gdb)`, you type:
 (gdb) source init.gdb
 ```
 
-The commands of `init.gdb' are executed, GDB connects via `st-util' to the board (command `tar extended-remote :4242`), the program is loaded (command `load`) and a breakpoint is set on the main function (command `break main`).
+The commands of `init.gdb` are executed, GDB connects via `st-util` to the board (command `tar extended-remote :4242`), the program is loaded (command `load`) and a breakpoint is set on the main function (command `break main`).
 
 The execution is then at the first instruction of the reset handler.
 
