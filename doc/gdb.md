@@ -219,27 +219,24 @@ set gpioa->MODER = gpioa->MODER | 0xa0
 ```
 
 ### multicore processor (RP2040 - pico board)
-For the pico, OpenOCD manages multicore by defining 2 threads: thread 1 for core 0 and thread 2 for core 1. To select one core:
-
+For the pico, OpenOCD (since version 0.12 - 3/3/2023) manages multicore by opening 2 sockets, one for each core: `3333` and `3334`
+To use it in multicore, you may open 2 gdb client (in 2 terminals - `Cmd+n` on Mac), with the same program: `arm-none-eabi-gdb -tui file.elf`
+On the first gdb instance:
 ```
-thread 2 # switch to core 1
-```
-
-If a breakpoint is reached by one core, the processor is halted (for both cores) and the view is switched to that core. Example with a breakpoint reached by core 1:
-```
-(gdb) c
-Continuing.
-[Switching to Thread 2]
-
-Thread 2 hit Breakpoint 1, core1_entry () at /home/[..]/multicore.c:29
+target extended-remote :3333
+monitor reset init
+break main
+c
 ```
 
-Behavior:
- * step by step execution (`n`,`s`) is executed only on the current core (the other remains halted)
- * `continue` restarts both cores
- * the `display` command is associated to each core
+on the second one (if `core1_entry` is the main function for core 1)
+```
+target extended-remote :3334
+break core1_entry
+c
+```
 
-> **Limitation:** if a breakpoint is reached on a core, the execution **should** restart (step by step or resume) on the same core. Otherwise, openocd cannot handle the command and crashes.
+> **Note:** breakpoints are **private** to each core. This means that a breakpoint set on core 1 won't stop core 0. There are 4 hardware breakpoints on the pico, you can have information about them with: `info breakpoints`
 
 ### Special case for the STM32 peripherals
 
