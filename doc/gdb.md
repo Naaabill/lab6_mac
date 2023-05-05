@@ -6,6 +6,8 @@ For low-level operations, it can use the ST-Link tool (dedicated to ST microcont
 
 You can easily find documentation for GDB, from simple [cheat sheets](https://darkdust.net/files/GDB%20Cheat%20Sheet.pdf), [more extended doc](http://www.yolinux.com/TUTORIALS/GDB-Commands.html), and obviously the [official documentation](https://sourceware.org/gdb/current/onlinedocs/gdb/).
 
+This document gives basic commands. Full documentation is available [here](https://sourceware.org/gdb/onlinedocs/gdb/).
+
 ## Low Level part
 The low level parts make the link between GDB commands and the board (using USB for instance). It acts as a server on which the client will connect to, using a socket.
 
@@ -158,22 +160,13 @@ delete
 
 ### Variables and memory
 
+More information [here](https://sourceware.org/gdb/onlinedocs/gdb/Data.html#Data).
+
 #### View variables
 
 Following commands can be used either with `print` (show one time, can be abbreviated by `p`) or `display` (show each time the program is stopped, can be abbreviated by `disp`):
 
-Print a variable one time. One can add a suffix to define the display format:
- *  `/x` hexadecimal
- *  `/o` octal
- *  `/d` decimal
- *  `/u` unsigned decimal
- *  `/t` binary
- *  `/f` float
- *  `/a` address
- *  `/i` instruction
- *  `/c` char
- *  `/s` string
- *  `/z` hex, zero padded on the left
+Print a variable one time. One can add a suffix to define the display format, such as `/x` (hexadecimal), `/d` (decimal):
 
 ```gdb
 print/x i   # print i in hexadicmal
