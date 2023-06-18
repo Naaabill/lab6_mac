@@ -29,8 +29,25 @@ sudo apt-get install build-essential cmake
 ```
 
 ## Cross-compiler
-The compiler can be downloaded through packages, but there are some problems with it, and the debugger (`arm-none-eabi-gdb`) is missing. You can download [a version provided by ARM](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads).
 
+2 ways, packages or version packaged by ARM. First one is the simplest.
+
+### from packages
+
+You can get the cross-compiler from packages:
+
+```sh
+apt install binutils-arm-none-eabi gcc-arm-none-eabi  libstdc++-arm-none-eabi-dev libstdc++-arm-none-eabi-newlib libstdc++-arm-none-eabi-picolibc
+```
+
+The debugger can support different architectures:
+```sh
+apt install gdb-multiarch
+```
+
+### from ARM
+
+Alternatively, you can download [a version provided by ARM](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads).
 The archive may be decompressed, and the environment variable PATH should be updated (here if the archive has been decompressed to `/path/to/gcc-arm`):
 ```sh
 export PATH=/path/to/gcc-arm/bin:$PATH
@@ -47,7 +64,7 @@ The ST-Link tool (communication between the debugger gdb and the target) [can be
 ## Next…
 As soon as all this stuff is correctly installed, you can configure an editor, such as [VSCode](./vscode.md) to develop your application.
 
-# Mac OS
+# Mac OS X
 
 On Mac, XCode should be installed, with the command line tools (App Store). You should agree the license in terminal (it has already been done on computers of the lab):
 ```sh
