@@ -136,7 +136,7 @@ You can check that the gcc path has been correctly set! (first line in the previ
 
 ### the driver
 
-You need to install the signed drivers [that are provided by ST](https://www.st.com/content/my_st_com/en/products/development-tools/software-development-tools/stm32-software-development-tools/stm32-utilities/stsw-link009.html)
+You need to install the signed drivers. It can be found [on the ST website](https://www.st.com/content/my_st_com/en/products/development-tools/software-development-tools/stm32-software-development-tools/stm32-utilities/stsw-link009.html) (account required), or [on hippocampus](https://hippocampus.ec-nantes.fr/pluginfile.php/75584/mod_folder/content/0/en.stsw-link009_v2.0.2.zip?forcedownload=1).
 
 * download the archive (`en.stsw-link009_v2.0.2.zip`)
 * unzip it, and run the instaler (`dpinst_amd64.exe`).
