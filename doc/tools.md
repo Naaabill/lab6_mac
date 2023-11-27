@@ -40,11 +40,17 @@ You can get the cross-compiler from packages:
 apt install binutils-arm-none-eabi gcc-arm-none-eabi  libstdc++-arm-none-eabi-dev libstdc++-arm-none-eabi-newlib libstdc++-arm-none-eabi-picolibc
 ```
 
-The debugger can support different architectures:
+The debugger can support different architectures (gdb-multiarch). To be able to use the Cmake rules, a symlink may be defined to `arm-none-eabi-gdb`. note the *backquotes* in the second command.
 ```sh
 apt install gdb-multiarch
+sudo ln -s `which gdb-multiarch` /usr/local/bin/arm-none-eabi-gdb
 ```
 
+On some Linux flavors, GDB may require library `ncurses`:
+
+```sh
+sudo apt install libncurses5
+```
 ### from ARM
 
 Alternatively, you can download [a version provided by ARM](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads).
