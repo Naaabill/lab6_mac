@@ -40,11 +40,17 @@ You can get the cross-compiler from packages:
 apt install binutils-arm-none-eabi gcc-arm-none-eabi  libstdc++-arm-none-eabi-dev libstdc++-arm-none-eabi-newlib libstdc++-arm-none-eabi-picolibc
 ```
 
-The debugger can support different architectures:
+The debugger can support different architectures (gdb-multiarch). To be able to use the Cmake rules, a symlink may be defined to `arm-none-eabi-gdb`. note the *backquotes* in the second command.
 ```sh
 apt install gdb-multiarch
+sudo ln -s `which gdb-multiarch` /usr/local/bin/arm-none-eabi-gdb
 ```
 
+On some Linux flavors, GDB may require library `ncurses`:
+
+```sh
+sudo apt install libncurses5
+```
 ### from ARM
 
 Alternatively, you can download [a version provided by ARM](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads).
@@ -136,7 +142,7 @@ You can check that the gcc path has been correctly set! (first line in the previ
 
 ### the driver
 
-You need to install the signed drivers [that are provided by ST](https://www.st.com/content/my_st_com/en/products/development-tools/software-development-tools/stm32-software-development-tools/stm32-utilities/stsw-link009.html)
+You need to install the signed drivers. It can be found [on the ST website](https://www.st.com/content/my_st_com/en/products/development-tools/software-development-tools/stm32-software-development-tools/stm32-utilities/stsw-link009.html) (account required), or [on hippocampus](https://hippocampus.ec-nantes.fr/pluginfile.php/75584/mod_folder/content/0/en.stsw-link009_v2.0.2.zip?forcedownload=1).
 
 * download the archive (`en.stsw-link009_v2.0.2.zip`)
 * unzip it, and run the instaler (`dpinst_amd64.exe`).
