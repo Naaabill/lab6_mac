@@ -41,6 +41,7 @@ set(LIBSRCS
     ${LIB_DIR}/spi.c
 #   ${LIB_DIR}/dummySerial.c
     ${LIB_DIR}/exti.c
+    ${LIB_DIR}/pwm.c
 )
 
 set(APP_SRCS ${SRCS} ${LIBSRCS} ${TFT_SRCS})
