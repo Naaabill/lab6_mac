@@ -44,6 +44,7 @@ include_directories(
 set(SYSTEMSRCS
     ${SYS_DIR}/startup_ARMCM4.c
     ${SYS_DIR}/startup_clock.c
+    ${SYS_DIR}/syscalls.c
 )
 
 #executable (should be after compile options)
