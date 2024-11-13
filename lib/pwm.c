@@ -21,7 +21,7 @@ int PWMEnableChannel(TIM_TypeDef *tim, int channel)
   //output PWM mode 1
   *CCMRx |=   6 << (offset+4);     //CCxM = 0b0110
   //pre-load register TIMx_CCRy
-  *CCMRx |=   3 << (offset+3);     //CCxPE = 1
+  *CCMRx |=   1 << (offset+3);     //CCxPE = 1
   //mode 1 - edge aligned mode
   tim->CR1 &= ~TIM_CR1_CMS_Msk;
   //enable channel
