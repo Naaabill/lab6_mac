@@ -16,7 +16,15 @@
  * - set duty value : TIMx->CCRy = ...;
  * - and start timer: TIMx->CR1 |= TIM_CR1_CEN; 
 */
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 int PWMEnableChannel(TIM_TypeDef *tim, int channel);
+
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif
