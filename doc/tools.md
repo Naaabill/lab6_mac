@@ -107,7 +107,7 @@ As soon as all this stuff is correctly installed, you can configure an editor, s
 
 The cross-compiler is [gcc for ARM and can be downloaded here](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads)
 
-You need to download the windows release `Windows (mingw-w64-i686) hosted cross toolchains`.
+You need to download the windows release `Windows (mingw-w64-x86_64) hosted cross toolchains` (64 bits host) or `Windows (mingw-w64-i686) hosted cross toolchains` (32 bits host). The target is `AArch32 bare-metal target (arm-none-eabi)`.
 
 Once downloaded, you just have to run the installer. **Don't forget to click on the option `Add path to environment variable`!!!**
 
