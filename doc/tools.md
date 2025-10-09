@@ -1,3 +1,6 @@
+# **THIS IS AN OUTDATED VERSION!!** 
+# **ST CLT (COMMAND LINE TOOLS) PROVIDE AS FULL INSTALLATION! DOC [HERE](./tools_st_clt.md)** 
+
 # Required tools: Cross-compiler, CMake, ST-Link
 
 The target is a ST Nucleo32 board STM32F303K8.
@@ -15,6 +18,7 @@ The compiler suite is `arm-none-eabi-gcc`, the debugger `arm-none-eabi-gdb` (tha
  * `gcc` is the name for the `GNU Compiler collection`, a widely uses compiler.
 
  Here are some tips and links to install these tools on Linux, MacOS and Windows.
+
 
 # Linux
 On Linux (Debian/Ubuntu flavor), you should install:
