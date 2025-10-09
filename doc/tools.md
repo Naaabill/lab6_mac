@@ -71,7 +71,7 @@ Another way is to make a symbolic link from the executables to the `usr/local/bi
 
 The ST-Link tool (communication between the debugger gdb and the target) have 2 versions:
   * an open source version that [can be found here](https://github.com/texane/stlink)
-  * the official ST version is [here](https://www.st.com/en/development-tools/st-link-server.html). It requires an ST account.
+  * the official ST version is [here](https://www.st.com/en/development-tools/stm32cubeprog.html). It requires an ST account.
 
 ## Next…
 As soon as all this stuff is correctly installed, you can configure an editor, such as [VSCode](./vscode.md) to develop your application.
