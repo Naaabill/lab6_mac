@@ -7,11 +7,11 @@
     {
         "cwd": "${workspaceFolder}",
         "executable": "./build/lab2",
-        "name": "Debug STM32 lab2 (ST-util)",
+        "name": "Debug STM32 lab2 (STLink)",
         "request": "launch", //"launch" => reload firmware, "attach" => just start debug session
         "type": "cortex-debug",
         "showDevDebugOutput": "none",
-        "servertype": "stutil",
+        "servertype": "stlink",
         "runToEntryPoint": "main",
         "device": "STM32F303K8",
         "v1": false,
@@ -19,11 +19,11 @@
     },{
         "cwd": "${workspaceFolder}",
         "executable": "./build/lab2",
-        "name": "Debug STM32 lab2 (STLink)",
+        "name": "Debug STM32 lab2 (ST-util)",
         "request": "launch", //"launch" => reload firmware, "attach" => just start debug session
         "type": "cortex-debug",
         "showDevDebugOutput": "none",
-        "servertype": "stlink",
+        "servertype": "stutil",
         "runToEntryPoint": "main",
         "device": "STM32F303K8",
         "v1": false,
