@@ -1,5 +1,5 @@
 # **THIS IS AN OUTDATED VERSION!!** 
-# **ST CLT (COMMAND LINE TOOLS) PROVIDE AS FULL INSTALLATION! DOC [HERE](./tools_st_clt.md)** 
+# **ST CLT (COMMAND LINE TOOLS) PROVIDE A FULL INSTALLATION! DOC [HERE](./tools_st_clt.md)** 
 
 # Required tools: Cross-compiler, CMake, ST-Link
 
