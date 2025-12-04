@@ -10,8 +10,9 @@ volatile int valueEncode = 0;
 
 
 void encoderInit (){
-	attachInterrupt(GPIOA,0,RISING);
     pinMode(GPIOA,1,INPUT_PULLUP);
+    pinMode(GPIOA,0,INPUT_PULLUP);
+	attachInterrupt(GPIOA,0,RISING);
     valueEncode = 0;
 }
 /* return the encoder value , in the range [0,45] */
