@@ -10,19 +10,6 @@ volatile int valueEncode = 0;
 
 
 void encoderInit (){
-    RCC->APB1ENR |= RCC_APB1ENR_TIM6EN; //enable TIM7 clock
-	// reset peripheral
-	__asm("nop");
-	RCC->APB1RSTR |= RCC_APB1RSTR_TIM6RST;
-	RCC->APB1RSTR &= ~RCC_APB1RSTR_TIM6RST;
-	__asm("nop");
-
-	TIM6->PSC = 64-1; //1Mhz
-	TIM6->CNT = 0;
-	TIM6->SR &= ~TIM_SR_UIF;
-	TIM6->ARR = 0xFFFF; // resolution 1us
-	TIM6->CR1 |= TIM_CR1_CEN;
-
 	attachInterrupt(GPIOA,0,RISING);
     pinMode(GPIOA,1,INPUT_PULLUP);
     valueEncode = 0;
